@@ -9,3 +9,4 @@ src/app/.DS_Store
 Front_end/node_modules/.bin/acorn
 */.angular/*
 */.*/*
+Front_end/package-lock.json
