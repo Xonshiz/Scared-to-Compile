@@ -1,0 +1,11 @@
+# Browsers that we support
+
+defaults
+not ios_saf 15.2-15.3
+not safari 15.2-15.3
+not ios_saf 15.0-15.1
+not ios_saf 14.5-14.8
+not ios_saf 14.0-14.4
+not ios_saf 12.2-12.5
+
+maintained node versions

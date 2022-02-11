@@ -8,14 +8,14 @@ import { Toolbar } from '../../../models/toolbar';
 })
 export class ToolComponent implements OnInit {
 
-    currentTool: Toolbar;
+    currentTool: Toolbar | undefined;
 
     @Input() set toolInfo(value: Toolbar) {
         this.currentTool = value;
-        this.width = this.currentTool.width ?? 300;
-        this.height = this.currentTool.height ?? 200;
-        this.top = this.currentTool.top ?? 100;
-        this.left = this.currentTool.left ?? 100;
+        this.width = this.currentTool?.width ?? 300;
+        this.height = this.currentTool?.height ?? 200;
+        this.top = this.currentTool?.top ?? 100;
+        this.left = this.currentTool?.left ?? 100;
     }
 
     width: number = 300;
