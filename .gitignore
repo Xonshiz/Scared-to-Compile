@@ -7,3 +7,5 @@ src/.DS_Store
 src/app/.DS_Store
 .DS_Store
 Front_end/node_modules/.bin/acorn
+*/.angular/*
+*/.*/*
