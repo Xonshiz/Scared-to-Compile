@@ -40,3 +40,8 @@
         cursor: nwse-resize;
     }
 }
+
+.sticky-note-class::-webkit-scrollbar {
+    width: 0.5rem; //only hide the vertical scrollbar
+    height: 0px; //only hide the horizontal scrollbar
+}

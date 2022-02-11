@@ -24,7 +24,8 @@ export class ToolbarComponent implements OnInit {
       name: "Sticky Note",
       shouldRender: true,
       itemType: ToolbarItemTypes.STICKY_NOTE,
-      icon: "note"
+      icon: "note",
+      editable: true
     },
     {
       id: common.newGuid(),

@@ -23,10 +23,10 @@ import { CollaborationService } from './services/collaboration.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-      BrowserAnimationsModule,
-      MaterialModule
+    BrowserAnimationsModule,
+    MaterialModule
   ],
-    providers: [CollaborationService],
+  providers: [CollaborationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

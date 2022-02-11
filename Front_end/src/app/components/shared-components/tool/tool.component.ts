@@ -7,11 +7,8 @@ import { Toolbar } from '../../../models/toolbar';
   styleUrls: ['./tool.component.scss']
 })
 export class ToolComponent implements OnInit {
-  currentTool: Toolbar | undefined;
   
-  @Input() set toolInfo(value: Toolbar){
-    this.currentTool = value;
-  }
+  @Input() toolInfo: Toolbar | undefined;
 
   constructor() { }
 
