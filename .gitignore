@@ -2,6 +2,7 @@
 **/bin/*
 /.vs
 */node_modules/*
+Backend/node_modules
 /.angular
 src/.DS_Store
 src/app/.DS_Store

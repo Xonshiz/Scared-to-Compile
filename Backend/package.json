@@ -1,0 +1,21 @@
+{
+  "name": "boilerplate",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^14.3.2",
+    "express": "^4.16.4",
+    "express-mongo-sanitize": "^2.2.0",
+    "http-errors": "~1.6.3",
+    "mongoose": "^6.1.8",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1"
+  }
+}
