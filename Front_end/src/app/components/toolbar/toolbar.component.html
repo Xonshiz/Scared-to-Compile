@@ -1,7 +1,3 @@
-<ul>
-    <li *ngFor="let item of Items"><a (click)="itemSelectedEvent(item)">{{ item.name }}</a></li>
-</ul>
-
 <mat-drawer-container class="example-container mat-typography" autosize>
     <mat-drawer #drawer mode="side" disableClose="true" opened="true">
         <!--<button mat-mini-fab (click)="isExpanded = !isExpanded" color="warn" style="margin: 10px;">
@@ -9,30 +5,10 @@
         </button>-->
 
         <mat-nav-list>
-            <mat-list-item>
-                <mat-icon mat-list-icon>ads_click</mat-icon>
-                <h4 mat-line *ngIf="isExpanded">Management A</h4>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-icon mat-list-icon>note_add</mat-icon>
-                <h4 mat-line *ngIf="isExpanded">Management B</h4>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-icon mat-list-icon>draw</mat-icon>
-                <h4 mat-line *ngIf="isExpanded">Management C</h4>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-icon mat-list-icon>credit_card</mat-icon>
-                <h4 mat-line *ngIf="isExpanded">Management B</h4>
-            </mat-list-item>
-            <mat-list-item>
-                <mat-icon mat-list-icon>image</mat-icon>
-                <h4 mat-line *ngIf="isExpanded">Management X</h4>
+            <mat-list-item *ngFor="let item of Items" >
+                <mat-icon (click)="itemSelectedEvent(item)" mat-list-icon>{{item?.icon}}</mat-icon>
+                <h4 mat-line *ngIf="isExpanded">{{item?.name}}</h4>
             </mat-list-item>
         </mat-nav-list>
     </mat-drawer>
-    <!--<div class="example-sidenav-content">
-        You cards and screen Contents goes here..
-        Will be pushed towards right on expanding side navbar.
-    </div>-->
 </mat-drawer-container>

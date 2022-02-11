@@ -18,6 +18,12 @@ ul {
     background-color: #555;
     color: white;
   }
+.mat-drawer-container{
+  height: 30%;
+}
+.mat-drawer{
+  background: aliceblue;
+}
 @media (min-width: 1080px) {
     .example-container {
         position: absolute;

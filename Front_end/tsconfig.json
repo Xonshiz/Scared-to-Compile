@@ -23,7 +23,7 @@
       "dom"
     ],
     "paths": {
-      "tslib": [ "path/to/node_modules/tslib/tslib.d.ts" ]
+      "tslib": [ "path/to/Front_end/node_modules/tslib/tslib.d.ts" ]
     }
   },
   "angularCompilerOptions": {
