@@ -2,8 +2,12 @@
 **/bin/*
 /.vs
 */node_modules/*
+Backend/node_modules
 /.angular
 src/.DS_Store
 src/app/.DS_Store
 .DS_Store
 Front_end/node_modules/.bin/acorn
+*/.angular/*
+*/.*/*
+Front_end/package-lock.json
