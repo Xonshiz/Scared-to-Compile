@@ -1,4 +1,5 @@
 import { ToolbarItemTypes } from "../helpers/common-enums";
+import { ToolPosition } from "./tool-position";
 
 export class Toolbar {
     id?: string;
@@ -6,4 +7,7 @@ export class Toolbar {
     icon?: string;
     shouldRender: boolean = false;
     itemType?: ToolbarItemTypes;
+    editable?: boolean = false;
+    position?: ToolPosition;
+    isImage?: boolean = false;
 }
