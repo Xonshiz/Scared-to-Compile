@@ -24,7 +24,7 @@ ul {
 .mat-drawer{
   background: aliceblue;
 }
-@media (min-width: 1080px) {
+/*@media (min-width: 1080px) {
     .example-container {
         position: absolute;
         top: 100px;
@@ -45,4 +45,14 @@ ul {
         right: 0;
         width: 65px;
     }
+}*/
+
+.example-container {
+    position: absolute;
+    top: 100px;
+    bottom: 177px;
+    border-radius: 9px;
+    left: 17px;
+    right: 0;
+    width: 65px;
 }
