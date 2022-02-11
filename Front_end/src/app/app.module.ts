@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { StickyNoteComponent } from './components/sticky-note/sticky-note.component';
 import { ToolComponent } from './components/shared-components/tool/tool.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { CollaborationService } from './services/collaboration.service';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
       BrowserAnimationsModule,
       MaterialModule
   ],
-  providers: [],
+    providers: [CollaborationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
