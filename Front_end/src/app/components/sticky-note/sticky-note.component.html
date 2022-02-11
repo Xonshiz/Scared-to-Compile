@@ -1,8 +1,12 @@
-<ul cdkDrag>
-    <li>
-        <a href="#" contenteditable>
-            <h2>Title #1</h2>
-            <p>Text Content #1</p>
-        </a>
-    </li>
-</ul>
+
+<div #box class="resizable-draggable" 
+    [style.width.px]="width" 
+    [style.height.px]="height" 
+    [style.transform]="'translate3d('+ left + 'px,' + top + 'px,' + '0px)'"
+    [class.active]="status === 1 || status === 2"
+    (mousedown)="setStatus($event, 2)"
+    (window:mouseup)="setStatus($event, 0)"
+>
+    <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
+    
+</div>
