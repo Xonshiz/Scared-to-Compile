@@ -1,25 +1,21 @@
 <!-- (contextmenu)="onRightClick($event)"  -->
 
-<div #box class="resizable-draggable"
-    [style.width.px]="width" 
-    [style.height.px]="height" 
+<div #box class="resizable-draggable" [style.width.px]="width" [style.height.px]="height"
     [style.transform]="'translate3d('+ left + 'px,' + top + 'px,' + '0px)'"
-    [class.active]="status === 1 || status === 2"
-    (mousedown)="setStatus($event, 2)"
-    (window:mouseup)="setStatus($event, 0)"
->
+    [class.active]="status === 1 || status === 2" (mousedown)="setStatus($event, 2)"
+    (window:mouseup)="setStatus($event, 0)">
     <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
-    
+
 </div>
 
 
-<!-- an hidden div is created to set the position of appearance of the menu--> 
+<!-- an hidden div is created to set the position of appearance of the menu-->
 <!-- <div style="visibility: hidden; position: fixed;" 
 [style.left]="menuTopLeftPosition.x" 
 [style.top]="menuTopLeftPosition.y" 
 [matMenuTriggerFor]="rightMenu"></div>  -->
- 
-<!-- standard material menu --> 
+
+<!-- standard material menu -->
 <!-- <mat-menu #rightMenu="matMenu"> 
   <ng-template matMenuContent let-item="item"> 
     <button mat-menu-item>Clicked {% raw %}{{item.content}}{% endraw %}</button> 
