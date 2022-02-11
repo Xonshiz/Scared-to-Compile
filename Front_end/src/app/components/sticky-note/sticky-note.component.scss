@@ -1,8 +1,9 @@
 .resizable-draggable {
-    outline: 1px dashed green;
+    outline: 1px dashed #faebd7;
+    background: #faebd7;
     &.active {
         outline-style: solid;
-        background-color: #80ff800d;
+        background-color: #feecd3;
     }
 
     &:hover {
@@ -34,7 +35,7 @@
     transform: translate3d(-50%, -50%, 0) rotateZ(45deg);
     border-style: solid;
     border-width: 8px;
-    border-color: transparent transparent transparent #008000;
+    border-color: transparent transparent transparent #f0c284;
     &:hover, &:active {
         cursor: nwse-resize;
     }
