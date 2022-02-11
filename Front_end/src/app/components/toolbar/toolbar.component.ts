@@ -58,7 +58,8 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  itemSelectedEvent(selectedItem: Toolbar){
+    itemSelectedEvent(selectedItem: Toolbar) {
+        selectedItem.id = common.newGuid();
     this.itemSelected.emit(selectedItem);
   }
 

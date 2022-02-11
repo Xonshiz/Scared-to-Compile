@@ -14,6 +14,7 @@ import { CollaborationService } from './services/collaboration.service';
 export class AppComponent {
     @ViewChild(DynamicToolDirectiveDirective, { static: true }) dynamicChild!: DynamicToolDirectiveDirective;
     currentTools: any[] = [];
+    currentToolsComponent: Toolbar[] = [];
     cursorX = 0;
     cursorY = 0;
     cursorXprev = 0;
@@ -55,7 +56,7 @@ export class AppComponent {
         this.cursorYprev = this.cursorY;
     }
     constructor(private collaborationService: CollaborationService) {
-        this.collaborationService.startRecievingMessage();
+        this.collaborationService.startRecievingData();
     }
 
     ngOnInit(): void {
@@ -74,7 +75,19 @@ export class AppComponent {
                 dot.style.backgroundColor = 'black';//data.colour;
             }
             console.log(data);
-        })
+        });
+
+        this.collaborationService.otherComponent.subscribe(data => {
+            var component = this.currentToolsComponent.find(x => x.id == data.id);
+            if (!component) {
+                this.toolSelected(data);
+            } else {
+                let updateCurrentTool = this.currentTools.find(x => x.instance.currentTool.id == data.id);
+                if (updateCurrentTool) {
+                    updateCurrentTool.instance.toolInfo = data;
+                }
+            }
+        });
     }
 
     createDot(socketId:any) {
@@ -90,6 +103,8 @@ export class AppComponent {
         const componentRef = this.dynamicChild.viewContainerRef.createComponent(ToolComponent);
         this.currentTools.push(componentRef);
         componentRef.instance.toolInfo = selectedTool;
+        this.currentToolsComponent.push(selectedTool);
+        this.collaborationService.sendComponent(selectedTool);
     }
 
     toolSelected(selectedTool: Toolbar) {

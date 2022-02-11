@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { io, Socket } from 'socket.io-client';
+import { Toolbar } from "../models/toolbar";
 
 @Injectable({
     providedIn: 'root'
@@ -11,9 +12,14 @@ export class CollaborationService {
     private socket: Socket;
     private socketId: string = "";
     private _message: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    private _otherComponent: BehaviorSubject<Toolbar> = new BehaviorSubject<Toolbar>({});
 
     public get message(): Observable<any> {
         return this._message.asObservable();
+    }
+
+    public get otherComponent(): Observable<Toolbar> {
+        return this._otherComponent.asObservable();
     }
 
     constructor() {
@@ -34,14 +40,21 @@ export class CollaborationService {
         })
     }
 
-    startRecievingMessage() {
+    startRecievingData() {
         this.socket.on("cursormove", (data: any) => {
             this._message.next(data);
+        })
+        this.socket.on("otherComponent", (data: any) => {
+            this._otherComponent.next(data);
         })
     }
 
     sendMessage(msg: any) {
         msg = { ...msg, socketId: this.socketId };
         this.socket.emit("selfcursormove", msg);
+    }
+
+    sendComponent(msg: Toolbar) {
+        this.socket.emit("createComponent", msg);
     }
 }

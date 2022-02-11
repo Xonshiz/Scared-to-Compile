@@ -121,7 +121,12 @@
    socket.on('selfcursormove',(data)=>{
     console.log("recieved from client socket ",data);
     socket.broadcast.emit("cursormove",data);
-  })
+   })
+
+     socket.on('createComponent', (data) => {
+         console.log("createComponent from client socket ", data);
+         socket.broadcast.emit("otherComponent", data);
+     })
  })
 
  
