@@ -1,5 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Status } from 'src/app/helpers/common-enums';
+import { Toolbar } from 'src/app/models/toolbar';
 
 
 @Component({
@@ -9,17 +11,28 @@ import { Status } from 'src/app/helpers/common-enums';
 })
 export class StickyNoteComponent implements OnInit {
 
-  @Input() width: number;
-  @Input() height: number;
-  @Input() left: number;
-  @Input() top: number;
-  @ViewChild("box") public box: ElementRef;
 
-  private boxPosition: { left: number, top: number };
-  private containerPos: { left: number, top: number, right: number, bottom: number };
-  public mouse: {x: number, y: number}
+  showContextMenu: boolean = false;
+  menuTopLeftPosition =  {x: '0', y: '0'}
+  currentTool: Toolbar | undefined;
+  
+  @Input() set toolInfo(value: Toolbar){
+    this.currentTool = value;
+  }
+
+  @Input() width: number = 0;
+  @Input() height: number = 0;
+  @Input() left: number = 0;
+  @Input() top: number = 0;
+  @ViewChild("box") public box: ElementRef | undefined;
+
+  private boxPosition: { left: number, top: number } = { left: 0, top: 0 };
+  private containerPos: { left: number, top: number, right: number, bottom: number } = { left: 0, top: 0, right: 0, bottom: 0 };
+  public mouse: {x: number, y: number} = { x: 0, y: 0 };
   public status: Status = Status.OFF;
-  private mouseClick: {x: number, y: number, left: number, top: number}
+  private mouseClick: { x: number, y: number, left: number, top: number} = {x: 0, y: 0, left: 0, top: 0 };
+
+  @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger | undefined;
 
   ngOnInit() {}
 
@@ -29,15 +42,15 @@ export class StickyNoteComponent implements OnInit {
   }
 
   private loadBox(){
-    const {left, top} = this.box.nativeElement.getBoundingClientRect();
+    const {left, top} = this.box?.nativeElement.getBoundingClientRect();
     this.boxPosition = {left, top};
   }
 
   private loadContainer(){
     const left = this.boxPosition.left - this.left;
     const top = this.boxPosition.top - this.top;
-    const right = left + 600;
-    const bottom = top + 450;
+    const right = window.innerWidth;
+    const bottom = window.innerHeight;
     this.containerPos = { left, top, right, bottom };
   }
 
@@ -68,22 +81,26 @@ export class StickyNoteComponent implements OnInit {
   }
 
   private move(){
-    if(this.moveCondMeet()){
-      this.left = this.mouseClick.left + (this.mouse.x - this.mouseClick.x);
-      this.top = this.mouseClick.top + (this.mouse.y - this.mouseClick.y);
-    }
+    this.left = this.mouseClick.left + (this.mouse.x - this.mouseClick.x);
+    this.top = this.mouseClick.top + (this.mouse.y - this.mouseClick.y);
   }
 
-  private moveCondMeet(){
-    const offsetLeft = this.mouseClick.x - this.boxPosition.left; 
-    const offsetRight = this.width - offsetLeft; 
-    const offsetTop = this.mouseClick.y - this.boxPosition.top;
-    const offsetBottom = this.height - offsetTop;
-    return (
-      this.mouse.x > this.containerPos.left + offsetLeft && 
-      this.mouse.x < this.containerPos.right - offsetRight &&
-      this.mouse.y > this.containerPos.top + offsetTop &&
-      this.mouse.y < this.containerPos.bottom - offsetBottom
-      );
-  }
+  // onRightClick(event: MouseEvent){
+  //   // preventDefault avoids to show the visualization of the right-click menu of the browser 
+  //   event.preventDefault();
+  //   this.showContextMenu = true;
+  //   // we record the mouse position in our object 
+  //   this.menuTopLeftPosition.x = event.clientX + 'px'; 
+  //   this.menuTopLeftPosition.y = event.clientY + 'px'; 
+
+  //   // we open the menu 
+  //   // we pass to the menu the information about our object 
+  //   if(this.matMenuTrigger){
+  //     this.matMenuTrigger.menuData = {item: this.currentTool};
+
+  //   // we open the menu 
+  //   this.matMenuTrigger.openMenu(); 
+  //   }
+
+  // }
 }
