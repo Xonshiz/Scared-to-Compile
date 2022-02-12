@@ -14,20 +14,14 @@ exports.AddComponents = (req,res,next) => {
     Component.find({})
     .then(results => {
         if(results && results.length > 0){
-            Component.deleteMany().then(console.log);
-        }
-        Component.insertMany(components)
-        /*Promise.all(components.map(ele => {
-            let component = new Component(ele);
-            return component.save();
-        }))*/
-        .then(result => {
-            res.json({result:"added"});
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({error:"error in server check console.log"});
-        })        
+            Component.deleteMany().then((result) => {
+                console.log(result);
+                insertMultipleRecords(res,components);
+            });
+        }else{
+            insertMultipleRecords(res,components);
+        }        
+              
     })
     .catch(err => {
         console.log(err);
@@ -45,4 +39,20 @@ exports.GetComponents = (req,res,next) => {
         console.log(err);
         res.status(500).send(err);
     })
+}
+
+
+function insertMultipleRecords(res,components){
+    /*Promise.all(components.map(ele => {
+            let component = new Component(ele);
+            return component.save();
+        }))*/
+    Component.insertMany(components)        
+        .then(result => {
+            res.json({result:"added"});
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error:"error in server check console.log"});
+        })  
 }
