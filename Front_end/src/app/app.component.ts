@@ -188,6 +188,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.collaborationService.sendComponent(selectedTool);
         const selfDeleteSub = componentRef.instance.deleteSelf
             .pipe(tap(() => {
+                this.currentToolsComponent.splice(componentRef.instance.numberCreated, 1);
                 componentRef.destroy();
             }))
             .subscribe();
