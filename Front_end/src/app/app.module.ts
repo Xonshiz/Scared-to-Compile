@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DynamicToolDirectiveDirective } from './dynamic-tool-directive.directive';
@@ -11,24 +10,28 @@ import { ToolComponent } from './components/shared-components/tool/tool.componen
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { CollaborationService } from './services/collaboration.service';
 import { HttpClientModule } from '@angular/common/http';
-
+import { BoardMenuComponent } from './components/board-menu/board-menu.component';
+import { NotifBarComponent } from './components/notif-bar/notif-bar.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        ToolComponent,
-        ToolbarComponent,
-        DynamicToolDirectiveDirective,
-        StickyNoteComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        HttpClientModule
-    ],
-    providers: [CollaborationService],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    ToolComponent,
+    ToolbarComponent,
+    DynamicToolDirectiveDirective,
+    StickyNoteComponent,
+    BoardMenuComponent,
+    NotifBarComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    HttpClientModule
+  ],
+  providers: [CollaborationService],
+  bootstrap: [AppComponent]
+
 })
 export class AppModule { }

@@ -10,6 +10,21 @@
 
 </style>
 
+<!-- <app-board-menu></app-board-menu>
+<app-notif-bar></app-notif-bar> -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <app-board-menu></app-board-menu>
+    </div>
+    <div class="col-md-6">
+      <app-notif-bar></app-notif-bar>
+
+    </div>
+  </div>
+</div>
+
 <app-toolbar (itemSelected)="toolSelected($event)"></app-toolbar>
 <ng-template appDynamicToolDirective=""></ng-template>
 
