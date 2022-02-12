@@ -2,6 +2,7 @@ import { Component, HostListener, ViewChild, ViewEncapsulation, OnDestroy, OnIni
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, tap } from 'rxjs';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import panzoom from 'panzoom';
 import { ToolComponent } from './components/shared-components/tool/tool.component';
 import { DynamicToolDirectiveDirective } from './dynamic-tool-directive.directive';
 import { ToolbarItemTypes } from './helpers/common-enums';
@@ -167,6 +168,24 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
                 this.users.push({ name: this.id, pointerAdded: false });
             }
         });
+        var background = <HTMLElement>document.querySelector('#background');
+        let { x, y, scale } = this.getPositionStorage();
+
+        panzoom(background, {
+            // now all zoom operations will happen based on the center of the screen
+            transformOrigin: { x: 0.5, y: 0.5 },
+            zoomDoubleClickSpeed: 1,
+            beforeWheel: function (e) {
+                // allow wheel-zoom only if altKey is down. Otherwise - ignore
+                var shouldIgnore = !e.altKey;
+                return shouldIgnore;
+            },
+            beforeMouseDown: function (e) {
+                // allow mouse-down panning only if altKey is down. Otherwise - ignore
+                var shouldIgnore = !e.altKey;
+                return shouldIgnore;
+            }
+        });
     }
 
     createDot(socketId: any, userName: string) {
@@ -264,6 +283,20 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
                 currentInstance.renderDynamicComponent(currentInstance.currentSelectedTool);
             }
             fr.readAsDataURL(e?.target?.files[0]);
+        }
+    }
+    setPositionStorage(x: number, y: number, scale: number) {
+        x = x / (1 - scale);
+        y = y / (1 - scale);
+        window.localStorage.setItem("item", JSON.stringify({ x, y, scale }));
+    }
+
+    getPositionStorage() {
+        var val = window.localStorage.getItem("item");
+        if (val) {
+            return JSON.parse(val);
+        } else {
+            return { x: 500, y: 600, scale: 0.75 };
         }
     }
 }
