@@ -46,7 +46,9 @@ export class ToolbarComponent implements OnInit {
       name: "Image",
       shouldRender: true,
       itemType: ToolbarItemTypes.IMAGE,
-      icon: "image"
+      icon: "image",
+      isImageOnly: true,
+      editable: false
     }
   ];
   @Output() itemSelected: EventEmitter<Toolbar> = new EventEmitter();

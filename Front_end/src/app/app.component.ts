@@ -24,6 +24,8 @@ export class AppComponent {
     offsetY = 0;
     scale = 1;
 
+    currentSelectedTool!: Toolbar;
+
     @HostListener('document:mousemove', ['$event'])
     onMouseMove(e:any) {
         const lastTouches = [null, null];
@@ -108,9 +110,11 @@ export class AppComponent {
     }
 
     toolSelected(selectedTool: Toolbar) {
+        this.currentSelectedTool = selectedTool;
         if (selectedTool?.shouldRender) {
             if (selectedTool?.itemType === ToolbarItemTypes.IMAGE) {
                 //First open a file selector and if user selects a file, then render this component.
+                this.openFileDialog();
             } else {
                 this.renderDynamicComponent(selectedTool);
             }
@@ -123,4 +127,24 @@ export class AppComponent {
             }
         }
     }
+
+    openFileDialog(){
+        var hiddenImageFileSelector = document?.querySelector('#hiddenImageFileSelector');
+        if(hiddenImageFileSelector instanceof HTMLElement){
+            hiddenImageFileSelector?.click();
+        }
+      }
+
+      fileSelected(e: any){
+        if(e?.target?.files && FileReader){
+            var fr = new FileReader();
+            var currentInstance = this;
+            fr.onload = function () {
+                //Saving base64 string as the source of image.
+                currentInstance.currentSelectedTool.imageSource = fr.result;
+                currentInstance.renderDynamicComponent(currentInstance.currentSelectedTool);
+            }
+            fr.readAsDataURL(e?.target?.files[0]);
+        }
+      }
 }

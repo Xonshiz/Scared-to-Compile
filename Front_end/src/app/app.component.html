@@ -12,4 +12,7 @@
 
 <app-toolbar (itemSelected)="toolSelected($event)"></app-toolbar>
 <ng-template appDynamicToolDirective=""></ng-template>
+
+<input id="hiddenImageFileSelector" type="file" accept=".jpg,.png,.jpeg" style="display:none;height: 1px;width: 1px;" (change)="fileSelected($event)">
+
 <router-outlet></router-outlet>

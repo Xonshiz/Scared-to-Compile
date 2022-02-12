@@ -14,4 +14,5 @@ export class Toolbar {
     left?: number;
     top?: number;
     isImageOnly?: boolean = false;
+    imageSource?: string | ArrayBuffer | null;
 }

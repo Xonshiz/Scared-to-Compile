@@ -1,13 +1,16 @@
 .resizable-draggable {
-    outline: 1px dashed #faebd7;
+    outline: 1px #faebd7;
     background: #faebd7;
+    box-shadow: 2px 2px 5px #888888;
     &.active {
         outline-style: solid;
         background-color: #feecd3;
+        box-shadow: 5px 5px 8px #888888;
     }
 
     &:hover {
         cursor: all-scroll;
+        box-shadow: 3px 3px 6px #888888;
     }
 
     span:first-of-type {

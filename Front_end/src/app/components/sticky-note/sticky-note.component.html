@@ -4,6 +4,7 @@
     [style.transform]="'translate3d('+ left + 'px,' + top + 'px,' + '0px)'"
     [class.active]="status === 1 || status === 2" (mousedown)="setStatus($event, 2)"
     (window:mouseup)="setStatus($event, 0)" >
+    <div  *ngIf="currentTool?.isImageOnly"><img class="img-fluid" [src]="currentTool?.imageSource" [style.width.px]="width - 20" [style.height.px]="height"/></div>
     <label *ngIf="currentTool?.editable" class="sticky-note-class" [style.width.px]="width - 10" [style.height.px]="height - 20"
         style="padding: 5%;overflow: auto;margin: 10px!important;" contenteditable="true"></label>
     <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
