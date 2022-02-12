@@ -6,7 +6,7 @@
     (window:mouseup)="setStatus($event, 0)" >
     <div  *ngIf="currentTool?.isImageOnly"><img class="img-fluid" [src]="currentTool?.imageSource" [style.width.px]="width - 20" [style.height.px]="height"/></div>
     <label *ngIf="currentTool?.editable" class="sticky-note-class" [style.width.px]="width - 10" [style.height.px]="height - 20"
-        style="padding: 5%;overflow: auto;margin: 10px!important;" contenteditable="true"></label>
+        style="padding: 5%;overflow: auto;margin: 10px!important;" contenteditable="true" [textContent]="currentTool?.data" (input)="setValue($event.target)"></label>
     <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
 </div>
 

@@ -16,6 +16,7 @@ export class StickyNoteComponent implements OnInit {
     showContextMenu: boolean = false;
     menuTopLeftPosition = { x: '0', y: '0' }
     currentTool: Toolbar | undefined;
+    model: string = '';
 
     @Input() set toolInfo(value: Toolbar) {
         this.currentTool = value;
@@ -46,8 +47,13 @@ export class StickyNoteComponent implements OnInit {
         this.loadContainer();
     }
 
+    setValue($event) {
+        this.currentTool.data = $event.textContent;
+        this.collaborationService.sendComponent(this.currentTool);
+    }
+
     private loadBox() {
-        const { left, top } = this.box?.nativeElement.getBoundingClientRect();
+        const { left, top } = this.box?.nativeElement.getBoundingClientRect() ?? { left: 0, top: 0 };
         this.boxPosition = { left, top };
     }
 

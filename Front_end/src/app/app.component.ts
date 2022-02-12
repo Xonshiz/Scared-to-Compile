@@ -1,9 +1,10 @@
-import { Component, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ToolComponent } from './components/shared-components/tool/tool.component';
 import { DynamicToolDirectiveDirective } from './dynamic-tool-directive.directive';
 import { ToolbarItemTypes } from './helpers/common-enums';
 import { Toolbar } from './models/toolbar';
 import { CollaborationService } from './services/collaboration.service';
+import { CrudService } from './services/crud.service';
 
 @Component({
     selector: 'app-root',
@@ -11,7 +12,7 @@ import { CollaborationService } from './services/collaboration.service';
     styleUrls: ['./app.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
     @ViewChild(DynamicToolDirectiveDirective, { static: true }) dynamicChild!: DynamicToolDirectiveDirective;
     currentTools: any[] = [];
     currentToolsComponent: Toolbar[] = [];
@@ -19,15 +20,15 @@ export class AppComponent {
     cursorY = 0;
     cursorXprev = 0;
     cursorYprev = 0;
-    
+
     offsetX = 0;
     offsetY = 0;
     scale = 1;
 
     currentSelectedTool!: Toolbar;
 
-    @HostListener('document:mousemove', ['$event'])
-    onMouseMove(e:any) {
+    @HostListener('document:mousemove', ['$event'])    
+    onMouseMove(e: any) {
         const lastTouches = [null, null];
 
         var currentStroke = [];
@@ -57,8 +58,30 @@ export class AppComponent {
         this.cursorXprev = this.cursorX;
         this.cursorYprev = this.cursorY;
     }
-    constructor(private collaborationService: CollaborationService) {
+
+    @HostListener('window:beforeunload', ['$event'])
+    allSave() {
+        this.save();
+    }
+
+
+    constructor(private collaborationService: CollaborationService, private crudService: CrudService) {
         this.collaborationService.startRecievingData();
+    }
+    ngOnDestroy(): void {
+        if (this.currentToolsComponent?.length) {
+            this.crudService.saveAllStickyNotes(this.currentToolsComponent).subscribe(res => {
+                console.log(res);
+            });
+        }
+    }
+
+    save() {
+        if (this.currentToolsComponent?.length) {
+            this.crudService.saveAllStickyNotes(this.currentToolsComponent).subscribe(res => {
+                console.log(res);
+            });
+        }
     }
 
     ngOnInit(): void {
@@ -85,14 +108,22 @@ export class AppComponent {
                 this.toolSelected(data);
             } else {
                 let updateCurrentTool = this.currentTools.find(x => x.instance.currentTool.id == data.id);
+                let index = this.currentToolsComponent.findIndex(x => x.id == data.id);
+                this.currentToolsComponent[index] = data;
                 if (updateCurrentTool) {
                     updateCurrentTool.instance.toolInfo = data;
                 }
             }
         });
+
+        this.crudService.getAllStickyNotes().subscribe((res: Toolbar[]) => {
+            res.forEach(component => {
+                this.renderDynamicComponent(component);
+            });
+        });
     }
 
-    createDot(socketId:any) {
+    createDot(socketId: any) {
         const dot = document.createElement('div')
         dot.className = "dot";
         dot.id = socketId;
@@ -112,7 +143,7 @@ export class AppComponent {
     toolSelected(selectedTool: Toolbar) {
         this.currentSelectedTool = selectedTool;
         if (selectedTool?.shouldRender) {
-            if (selectedTool?.itemType === ToolbarItemTypes.IMAGE) {
+            if (selectedTool?.itemType === ToolbarItemTypes.IMAGE && !selectedTool.imageSource) {
                 //First open a file selector and if user selects a file, then render this component.
                 this.openFileDialog();
             } else {
@@ -128,15 +159,15 @@ export class AppComponent {
         }
     }
 
-    openFileDialog(){
+    openFileDialog() {
         var hiddenImageFileSelector = document?.querySelector('#hiddenImageFileSelector');
-        if(hiddenImageFileSelector instanceof HTMLElement){
+        if (hiddenImageFileSelector instanceof HTMLElement) {
             hiddenImageFileSelector?.click();
         }
-      }
+    }
 
-      fileSelected(e: any){
-        if(e?.target?.files && FileReader){
+    fileSelected(e: any) {
+        if (e?.target?.files && FileReader) {
             var fr = new FileReader();
             var currentInstance = this;
             fr.onload = function () {
@@ -146,5 +177,5 @@ export class AppComponent {
             }
             fr.readAsDataURL(e?.target?.files[0]);
         }
-      }
+    }
 }

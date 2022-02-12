@@ -10,23 +10,25 @@ import { StickyNoteComponent } from './components/sticky-note/sticky-note.compon
 import { ToolComponent } from './components/shared-components/tool/tool.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { CollaborationService } from './services/collaboration.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ToolComponent,
-    ToolbarComponent,
-    DynamicToolDirectiveDirective,
-    StickyNoteComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule
-  ],
-  providers: [CollaborationService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ToolComponent,
+        ToolbarComponent,
+        DynamicToolDirectiveDirective,
+        StickyNoteComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        HttpClientModule
+    ],
+    providers: [CollaborationService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
