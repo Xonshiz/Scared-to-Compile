@@ -185,6 +185,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
                 // allow mouse-down panning only if altKey is down. Otherwise - ignore
                 var shouldIgnore = !e.altKey;
                 return shouldIgnore;
+            },
+            filterKey: function(/* e, dx, dy, dz */) {
+                // don't let panzoom handle this event:
+                return true;
             }
         });
     }
