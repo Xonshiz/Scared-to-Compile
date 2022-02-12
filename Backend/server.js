@@ -33,7 +33,7 @@
   * Listen on provided port, on all network interfaces.
   */
 
- /*var uri = process.env.MONGO_URL;
+ var uri = process.env.MONGO_URL;
  mongoose
  .connect(uri,{ 
    user: process.env.MONGO_USER, 
@@ -44,10 +44,10 @@
     serverStart();
  }).catch((err)=>{
     console.log(err);
- });*/
+ });
 
  // Comment below code if using mongoose database and uncomment above code
- serverStart(); 
+ //serverStart(); 
  
  function serverStart(){
   server.listen(port);
