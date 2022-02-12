@@ -2,11 +2,52 @@
     background: #f0c284;
 }
 
+.staticHeader{
+    background: #e75480;
+}
+
+.imageHeader{
+    background: #f0c284;
+}
+
 .close{
     margin: 5px;;
 }
 
-.resizable-draggable {
+.static-board-resizable-draggable {
+    outline: 1px #fdc9d3;
+    background: #fdc9d3;
+    box-shadow: 2px 2px 5px #fdc9d3;
+    &.active {
+        outline-style: solid;
+        background-color: #fdc9d3;
+        box-shadow: 5px 5px 8px #fb6791;
+    }
+
+    &:hover {
+        cursor: all-scroll;
+        box-shadow: 3px 3px 6px #fb6791;
+    }
+
+    span:first-of-type {
+        position: absolute;
+        left: 50%;
+        transform: translate3d(-50%, -100%, 0);
+    }
+
+    span:nth-of-type(2) {
+        position: absolute;
+        top: 50%;
+        transform: translate3d(-100%, -50%, 0);
+    }
+    
+    span:nth-of-type(3) {
+        position: absolute;
+        transform: translate3d(-100%, -100%, 0);
+    }
+}
+
+.sticky-note-resizable-draggable {
     outline: 1px #faebd7;
     background: #faebd7;
     box-shadow: 2px 2px 5px #888888;
@@ -39,7 +80,66 @@
     }
 }
 
-.resize-action {
+.image-board-resizable-draggable {
+    outline: 1px #faebd7;
+    background: #faebd7;
+    box-shadow: 2px 2px 5px #888888;
+    &.active {
+        outline-style: solid;
+        background-color: #feecd3;
+        box-shadow: 5px 5px 8px #888888;
+    }
+
+    &:hover {
+        cursor: all-scroll;
+        box-shadow: 3px 3px 6px #888888;
+    }
+
+    span:first-of-type {
+        position: absolute;
+        left: 50%;
+        transform: translate3d(-50%, -100%, 0);
+    }
+
+    span:nth-of-type(2) {
+        position: absolute;
+        top: 50%;
+        transform: translate3d(-100%, -50%, 0);
+    }
+    
+    span:nth-of-type(3) {
+        position: absolute;
+        transform: translate3d(-100%, -100%, 0);
+    }
+}
+
+.static-board-resize-action {
+    position: absolute;
+    left: 100%;
+    top: 100%;
+    transform: translate3d(-50%, -50%, 0) rotateZ(45deg);
+    border-style: solid;
+    border-width: 8px;
+    border-color: transparent transparent transparent #e75480;
+    &:hover, &:active {
+        cursor: nwse-resize;
+    }
+}
+
+.sticky-note-resize-action {
+    position: absolute;
+    left: 100%;
+    top: 100%;
+    transform: translate3d(-50%, -50%, 0) rotateZ(45deg);
+    border-style: solid;
+    border-width: 8px;
+    border-color: transparent transparent transparent #f0c284;
+    &:hover, &:active {
+        cursor: nwse-resize;
+    }
+}
+
+.image-board-resize-action {
     position: absolute;
     left: 100%;
     top: 100%;

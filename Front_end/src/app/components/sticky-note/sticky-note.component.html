@@ -1,10 +1,10 @@
 <div>
-  <div #box class="resizable-draggable" [style.width.px]="width" [style.height.px]="height"
+  <div #box [ngClass]="{'1' : 'sticky-note-resizable-draggable', '2' : 'static-board-resizable-draggable', '4' : 'image-board-resizable-draggable'}[currentTool?.itemType]" [style.width.px]="width" [style.height.px]="height"
     [style.transform]="'translate3d('+ left + 'px,' + top + 'px,' + '0px)'"
     [class.active]="status === 1 || status === 2" (mousedown)="setStatus($event, 2)"
     (window:mouseup)="setStatus($event, 0)"
     (contextmenu)="stickyNoteContextClick($event)" >
-    <div #box class="stickyHeader">
+    <div #box [ngClass]="{'1' : 'stickyHeader', '2' : 'staticHeader', '4' : 'imageHeader'}[currentTool?.itemType]">
       <div style="display: flex; justify-content: space-between;">
         <div id="emptyDiv"></div>
         <mat-icon (click)="deleteSelf.emit()" aria-hidden="false" aria-label="Example home icon" class="icons" >close</mat-icon>
@@ -13,6 +13,6 @@
     <div  *ngIf="currentTool?.isImageOnly"><img class="img-fluid" [src]="currentTool?.imageSource" [style.width.px]="width - 20" [style.height.px]="height - 50"/></div>
     <label *ngIf="currentTool?.editable" class="sticky-note-class" [style.width.px]="width - 20" [style.height.px]="height - 50"
         style="padding: 5%;overflow: auto;margin: 10px!important;" contenteditable="true" [textContent]="currentTool?.data" (input)="setValue($event.target)"></label>
-    <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
+    <div [ngClass]="{'1' : 'sticky-note-resize-action', '2' : 'static-board-resize-action', '4' : 'image-board-resize-action'}[currentTool?.itemType]"  (mousedown)="setStatus($event, 1)"></div>
 </div>
 </div>
