@@ -20,7 +20,7 @@ const componentsSchema = new Schema({
     height:Number,
     left:Number,
     top:Number,
-    isImage:Boolean
+    isImageOnly:Boolean
 })
 
 
