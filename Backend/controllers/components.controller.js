@@ -16,10 +16,11 @@ exports.AddComponents = (req,res,next) => {
         if(results && results.length > 0){
             Component.deleteMany().then(console.log);
         }
-        Promise.all(components.map(ele => {
+        Component.insertMany(components)
+        /*Promise.all(components.map(ele => {
             let component = new Component(ele);
             return component.save();
-        }))
+        }))*/
         .then(result => {
             res.json({result:"added"});
         })
