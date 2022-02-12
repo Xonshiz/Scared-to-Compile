@@ -1,12 +1,13 @@
 <div class="n-menu">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-        <a class="navbar-brand" href="#">
+        <input placeholder="email address" class="email" [(ngModel)]="mailString"/>
+        <div class="navbar-brand">            
+            <mat-icon aria-hidden="false" aria-label="Example home icon" class="icons" (click)="sendEmail()">share</mat-icon>
             <mat-icon aria-hidden="false" aria-label="Example home icon" class="icons" >person</mat-icon>
             <mat-icon aria-hidden="false" aria-label="Example home icon" class="icons" >info</mat-icon>
             <mat-icon aria-hidden="false" aria-label="Example home icon" class="icons" >settings</mat-icon>
-          </a>
-    
+        </div>
+          <a #emailSent [href]="mailString" style="display: none;">Send email</a>
       </nav>
 </div>

@@ -173,7 +173,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
         panzoom(background, {
             // now all zoom operations will happen based on the center of the screen
-            transformOrigin: { x: 0.5, y: 0.5 },
+            //transformOrigin: { x: 0.5, y: 0.5 },
+            maxZoom:1,
             zoomDoubleClickSpeed: 1,
             beforeWheel: function (e) {
                 // allow wheel-zoom only if altKey is down. Otherwise - ignore

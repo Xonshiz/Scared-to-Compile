@@ -22,7 +22,8 @@ ul {
   height: 30%;
 }
 .mat-drawer{
-  background: aliceblue;
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
 }
 /*@media (min-width: 1080px) {
     .example-container {

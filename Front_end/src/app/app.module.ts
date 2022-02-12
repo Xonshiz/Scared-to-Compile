@@ -14,6 +14,7 @@ import { BoardMenuComponent } from './components/board-menu/board-menu.component
 import { NotifBarComponent } from './components/notif-bar/notif-bar.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { MainComponent } from './main.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MainComponent } from './main.component';
     ContextMenuComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

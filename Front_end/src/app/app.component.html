@@ -20,14 +20,13 @@
     </div>
     <div class="col-md-6">
       <app-notif-bar></app-notif-bar>
-
     </div>
   </div>
 </div>
 <app-toolbar (itemSelected)="toolSelected($event)"></app-toolbar>
-<body id="background">
+<div id="background">
 <ng-template appDynamicToolDirective=""></ng-template>
 
 <input id="hiddenImageFileSelector" type="file" accept=".jpg,.png,.jpeg" style="display:none;height: 1px;width: 1px;" (change)="fileSelected($event)">
 <div #contextMenu></div>
-</body>
+</div>
