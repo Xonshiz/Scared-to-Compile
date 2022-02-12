@@ -120,7 +120,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             if (!dot && data.socketId && !ispointerAdded) {
                 if (data.user) {
                     dot = this.createDot(data.socketId, data.user);
-                    this.users.push({ name: data.user, pointerAdded: true });
+                    let userIndex = this.users.findIndex(x => x.name == data.user);
+                    if (userIndex == undefined) {
+                        this.users.push({ name: data.user, pointerAdded: true });
+                    } else {
+                        this.users[userIndex].pointerAdded = true;
+                    }
                 }
             }
             // dot.style.left = `${data.x-7}px`

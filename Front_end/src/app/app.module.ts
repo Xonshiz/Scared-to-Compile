@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BoardMenuComponent } from './components/board-menu/board-menu.component';
 import { NotifBarComponent } from './components/notif-bar/notif-bar.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { MainComponent } from './main.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     StickyNoteComponent,
     BoardMenuComponent,
     NotifBarComponent,
+    MainComponent,
     ContextMenuComponent,
   ],
   imports: [
@@ -33,8 +35,7 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     HttpClientModule
   ],
   providers: [CollaborationService],
-  bootstrap: [AppComponent],
-  entryComponents: [ToolComponent]
+  bootstrap: [MainComponent]
 
 })
 export class AppModule { }
