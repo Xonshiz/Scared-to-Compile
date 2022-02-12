@@ -32,11 +32,11 @@ export class CollaborationService {
           }*/);
         this.socket.on("connect", () => {
             this.socketId = this.socket.id;
-            console.log("connected to server with id ", this.socketId);
+            //console.log("connected to server with id ", this.socketId);
         });
 
         this.socket.on("disconnect", () => {
-            console.log("disconnected");
+            //console.log("disconnected");
         })
     }
 

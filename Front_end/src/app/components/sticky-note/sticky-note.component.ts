@@ -25,7 +25,7 @@ export class StickyNoteComponent implements OnInit {
     @Input() height: number = 0;
     @Input() left: number = 0;
     @Input() top: number = 0;
-    
+
     @ViewChild("box") public box: ElementRef | undefined;
 
     private boxPosition: { left: number, top: number } = { left: 0, top: 0 };
@@ -76,11 +76,13 @@ export class StickyNoteComponent implements OnInit {
 
     private resize() {
         //if (this.resizeCondMeet()) {
-            this.width = Number(this.mouse.x > this.boxPosition.left) ? this.mouse.x - this.boxPosition.left : 0;
-            this.height = Number(this.mouse.y > this.boxPosition.top) ? this.mouse.y - this.boxPosition.top : 0;
+        this.width = Number(this.mouse.x > this.boxPosition.left) ? this.mouse.x - this.boxPosition.left : 0;
+        this.height = Number(this.mouse.y > this.boxPosition.top) ? this.mouse.y - this.boxPosition.top : 0;
+        if (this.currentTool) {
             this.currentTool.width = this.width;
             this.currentTool.height = this.height;
             this.collaborationService.sendComponent(this.currentTool);
+        }
         //}
     }
 
@@ -91,9 +93,11 @@ export class StickyNoteComponent implements OnInit {
     private move() {
         this.left = this.mouseClick.left + (this.mouse.x - this.mouseClick.x);
         this.top = this.mouseClick.top + (this.mouse.y - this.mouseClick.y);
-        this.currentTool.left = this.left;
-        this.currentTool.top = this.top;
-        this.collaborationService.sendComponent(this.currentTool);
+        if (this.currentTool) {
+            this.currentTool.left = this.left;
+            this.currentTool.top = this.top;
+            this.collaborationService.sendComponent(this.currentTool);
+        }
     }
 
     // onRightClick(event: MouseEvent){

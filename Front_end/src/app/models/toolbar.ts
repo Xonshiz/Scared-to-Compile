@@ -13,5 +13,5 @@ export class Toolbar {
     height?: number;
     left?: number;
     top?: number;
-    isImage?: boolean = false;
+    isImageOnly?: boolean = false;
 }

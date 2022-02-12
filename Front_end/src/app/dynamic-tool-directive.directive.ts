@@ -6,7 +6,7 @@ import { Directive, ViewContainerRef } from '@angular/core';
 export class DynamicToolDirectiveDirective {
 
   constructor(public viewContainerRef: ViewContainerRef) { 
-    console.log("It works!");
+    //console.log("It works!");
   }
 
 }

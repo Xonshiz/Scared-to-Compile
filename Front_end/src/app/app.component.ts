@@ -48,7 +48,7 @@ export class AppComponent {
             x: this.cursorX,
             y: this.cursorY
         };
-        console.log(`from app component: x axis: ${message.x} y axis: ${message.y}`);
+        //console.log(`from app component: x axis: ${message.x} y axis: ${message.y}`);
         this.collaborationService.sendMessage(message);
         //onOwnCursorMove(trueX, trueY);
 
@@ -74,7 +74,7 @@ export class AppComponent {
                 dot.style.top = `${data.y}px`;
                 dot.style.backgroundColor = 'black';//data.colour;
             }
-            console.log(data);
+            //console.log(data);
         });
 
         this.collaborationService.otherComponent.subscribe(data => {
