@@ -155,13 +155,13 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             });
         });
 
-         // this.route.snapshot.paramMap.get('id');
+        // this.route.snapshot.paramMap.get('id');
         let name = this.route.params.subscribe((data) => {
             if (data['id']) {
                 this.id = data['id'];
                 this.users.push({ name: this.id, pointerAdded: false });
             }
-        });        
+        });
     }
 
     createDot(socketId: any, userName: string) {
@@ -221,20 +221,22 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     toolSelected(selectedTool: Toolbar) {
-        this.currentSelectedTool = selectedTool;
-        if (selectedTool?.shouldRender) {
-            if (selectedTool?.itemType === ToolbarItemTypes.IMAGE && !selectedTool.imageSource) {
-                //First open a file selector and if user selects a file, then render this component.
-                this.openFileDialog();
-            } else {
-                this.renderDynamicComponent(selectedTool);
+        if (selectedTool?.id) {
+            this.currentSelectedTool = selectedTool;
+            if (selectedTool?.shouldRender) {
+                if (selectedTool?.itemType === ToolbarItemTypes.IMAGE && !selectedTool.imageSource) {
+                    //First open a file selector and if user selects a file, then render this component.
+                    this.openFileDialog();
+                } else {
+                    this.renderDynamicComponent(selectedTool);
+                }
             }
-        }
-        else {
-            if (selectedTool?.itemType === ToolbarItemTypes.MOUSE) {
-                console.log("Change Mouse Icon to regular mouse.");
-            } else if (selectedTool?.itemType === ToolbarItemTypes.PENIL) {
-                console.log("Change Mouse Icon to Pencil.");
+            else {
+                if (selectedTool?.itemType === ToolbarItemTypes.MOUSE) {
+                    console.log("Change Mouse Icon to regular mouse.");
+                } else if (selectedTool?.itemType === ToolbarItemTypes.PENIL) {
+                    console.log("Change Mouse Icon to Pencil.");
+                }
             }
         }
     }

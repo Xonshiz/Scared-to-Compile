@@ -10,8 +10,8 @@ import { Toolbar } from '../../models/toolbar';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-  
-  @Input() Items: Toolbar[] = [
+
+  Items: Toolbar[] = [
     {
       id: common.newGuid(),
       name: "Mouse",
@@ -53,15 +53,15 @@ export class ToolbarComponent implements OnInit {
   ];
   @Output() itemSelected: EventEmitter<Toolbar> = new EventEmitter();
 
-    isExpanded: boolean = false;
+  isExpanded: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-    itemSelectedEvent(selectedItem: Toolbar) {
-        selectedItem.id = common.newGuid();
+  itemSelectedEvent(selectedItem: Toolbar) {
+    selectedItem.id = common.newGuid();
     this.itemSelected.emit(selectedItem);
   }
 

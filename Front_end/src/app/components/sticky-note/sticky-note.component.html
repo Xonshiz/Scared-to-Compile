@@ -1,27 +1,18 @@
-<!-- (contextmenu)="onRightClick($event)"  -->
-
-<div #box class="resizable-draggable" [style.width.px]="width" [style.height.px]="height"
+<div>
+  <div #box class="resizable-draggable" [style.width.px]="width" [style.height.px]="height"
     [style.transform]="'translate3d('+ left + 'px,' + top + 'px,' + '0px)'"
     [class.active]="status === 1 || status === 2" (mousedown)="setStatus($event, 2)"
     (window:mouseup)="setStatus($event, 0)"
     (contextmenu)="stickyNoteContextClick($event)" >
+    <div #box class="stickyHeader">
+      <div style="display: flex; justify-content: space-between;">
+        <div id="emptyDiv"></div>
+        <mat-icon (click)="deleteSelf.emit()" aria-hidden="false" aria-label="Example home icon" class="icons" >close</mat-icon>
+      </div>
+    </div>
     <div  *ngIf="currentTool?.isImageOnly"><img class="img-fluid" [src]="currentTool?.imageSource" [style.width.px]="width - 20" [style.height.px]="height"/></div>
-    <label *ngIf="currentTool?.editable" class="sticky-note-class" [style.width.px]="width - 10" [style.height.px]="height - 20"
+    <label *ngIf="currentTool?.editable" class="sticky-note-class" [style.width.px]="width - 20" [style.height.px]="height - 50"
         style="padding: 5%;overflow: auto;margin: 10px!important;" contenteditable="true" [textContent]="currentTool?.data" (input)="setValue($event.target)"></label>
     <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
 </div>
-
-
-<!-- an hidden div is created to set the position of appearance of the menu-->
-<!-- <div style="visibility: hidden; position: fixed;" 
-[style.left]="menuTopLeftPosition.x" 
-[style.top]="menuTopLeftPosition.y" 
-[matMenuTriggerFor]="rightMenu"></div>  -->
-
-<!-- standard material menu -->
-<!-- <mat-menu #rightMenu="matMenu"> 
-  <ng-template matMenuContent let-item="item"> 
-    <button mat-menu-item>Clicked {% raw %}{{item.content}}{% endraw %}</button> 
-    <button mat-menu-item>Fixed value</button> 
-  </ng-template> 
-</mat-menu>  -->
+</div>

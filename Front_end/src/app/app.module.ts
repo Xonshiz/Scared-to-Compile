@@ -33,7 +33,8 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
     HttpClientModule
   ],
   providers: [CollaborationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ToolComponent]
 
 })
 export class AppModule { }

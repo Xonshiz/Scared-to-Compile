@@ -28,13 +28,14 @@ export class CollaborationService {
     }
 
     constructor() {
-        this.socket = io("http://localhost:5000"
+        this.socket = io(
             /*"http://localhost:5000",{
             withCredentials: true,
             extraHeaders: {
               "my-custom-header": "abcd"
             }
-          }*/);
+          }*/
+          );
         this.socket.on("connect", () => {
             this.socketId = this.socket.id;
             //console.log("connected to server with id ", this.socketId);
