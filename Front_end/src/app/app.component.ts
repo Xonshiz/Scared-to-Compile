@@ -1,7 +1,11 @@
-import { Component, HostListener, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, HostListener, ViewChild, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
+import { Subscription, tap } from 'rxjs';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { ToolComponent } from './components/shared-components/tool/tool.component';
 import { DynamicToolDirectiveDirective } from './dynamic-tool-directive.directive';
 import { ToolbarItemTypes } from './helpers/common-enums';
+import { ContextMenuOptionsEnum } from './helpers/context-menu-enums';
+import { ContextMenuOptions } from './models/context-menu-options';
 import { Toolbar } from './models/toolbar';
 import { CollaborationService } from './services/collaboration.service';
 import { CrudService } from './services/crud.service';
@@ -12,7 +16,7 @@ import { CrudService } from './services/crud.service';
     styleUrls: ['./app.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, AfterViewInit {
     @ViewChild(DynamicToolDirectiveDirective, { static: true }) dynamicChild!: DynamicToolDirectiveDirective;
     currentTools: any[] = [];
     currentToolsComponent: Toolbar[] = [];
@@ -27,7 +31,13 @@ export class AppComponent implements OnDestroy {
 
     currentSelectedTool!: Toolbar;
 
-    @HostListener('document:mousemove', ['$event'])    
+    menuEvent: any;
+    contextMenuSelector: string = "";
+    rightClickMenuItems: ContextMenuOptions[] = [];
+
+    private subs: Subscription[] = [];
+
+    @HostListener('document:mousemove', ['$event'])
     onMouseMove(e: any) {
         const lastTouches = [null, null];
 
@@ -68,12 +78,18 @@ export class AppComponent implements OnDestroy {
     constructor(private collaborationService: CollaborationService, private crudService: CrudService) {
         this.collaborationService.startRecievingData();
     }
+
+    ngAfterViewInit(): void {
+    }
+
     ngOnDestroy(): void {
         if (this.currentToolsComponent?.length) {
             this.crudService.saveAllStickyNotes(this.currentToolsComponent).subscribe(res => {
                 console.log(res);
             });
         }
+        // unsubscribe from all on destroy
+        this.subs.forEach(sub => sub.unsubscribe());
     }
 
     save() {
@@ -134,10 +150,48 @@ export class AppComponent implements OnDestroy {
 
     private renderDynamicComponent(selectedTool: Toolbar) {
         const componentRef = this.dynamicChild.viewContainerRef.createComponent(ToolComponent);
+        componentRef.instance.numberCreated = this.currentTools.length;
         this.currentTools.push(componentRef);
         componentRef.instance.toolInfo = selectedTool;
         this.currentToolsComponent.push(selectedTool);
         this.collaborationService.sendComponent(selectedTool);
+        const selfDeleteSub = componentRef.instance.deleteSelf
+            .pipe(tap(() => {
+                componentRef.destroy();
+            }))
+            .subscribe();
+        // add subscription to array for clean up
+        this.subs.push(selfDeleteSub);
+        const contextMenuSubs = componentRef.instance.contextMenuClicked.subscribe((contextMenuData) => {
+            console.log(`Got this: ${contextMenuData}`);
+            this.menuEvent = contextMenuData;
+            this.contextMenuSelector = contextMenuData?.srcElement;
+            this.rightClickMenuItems = <ContextMenuOptions[]>[
+                {
+                    menuText: 'Delete',
+                    menuLink: ContextMenuOptionsEnum.DELETE,
+                }
+            ];
+            this.createContextMenuComponent();
+            this.subs.push(contextMenuSubs);
+        });
+    }
+
+    createContextMenuComponent() {
+        const componentRef = this.dynamicChild.viewContainerRef.createComponent(ContextMenuComponent);
+        (<ContextMenuComponent>componentRef.instance).contextMenuEvent = this.menuEvent;
+        (<ContextMenuComponent>componentRef.instance).contextMenuSelector = this.contextMenuSelector;
+        (<ContextMenuComponent>componentRef.instance).contextMenuItems = this.rightClickMenuItems;
+        const contextMenuSubs = componentRef.instance.contextMenuOptionSelected.subscribe((data) => {
+            if (data) {
+                var currentToolIndex = this.currentToolsComponent.findIndex(x => x.id === data.sourceEvent?.selectedToolContext?.id);
+                if (currentToolIndex > -1) {
+                    this.currentToolsComponent.splice(currentToolIndex, 1);
+                    this.dynamicChild.viewContainerRef.get(currentToolIndex)?.destroy();
+                }
+            }
+        });
+        this.subs.push(contextMenuSubs);
     }
 
     toolSelected(selectedTool: Toolbar) {

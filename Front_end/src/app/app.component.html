@@ -29,6 +29,6 @@
 <ng-template appDynamicToolDirective=""></ng-template>
 
 <input id="hiddenImageFileSelector" type="file" accept=".jpg,.png,.jpeg" style="display:none;height: 1px;width: 1px;" (change)="fileSelected($event)">
-
+<div #contextMenu></div>
 <router-outlet></router-outlet>
 <!--<button mat-button (click)="save()">Save all notes</button>-->

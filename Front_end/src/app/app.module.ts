@@ -12,6 +12,7 @@ import { CollaborationService } from './services/collaboration.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BoardMenuComponent } from './components/board-menu/board-menu.component';
 import { NotifBarComponent } from './components/notif-bar/notif-bar.component';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NotifBarComponent } from './components/notif-bar/notif-bar.component';
     DynamicToolDirectiveDirective,
     StickyNoteComponent,
     BoardMenuComponent,
-    NotifBarComponent
+    NotifBarComponent,
+    ContextMenuComponent,
   ],
   imports: [
     BrowserModule,

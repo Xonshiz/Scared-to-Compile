@@ -1,1 +1,3 @@
-<app-sticky-note [width]="width" [height]="height" [left]="left" [top]="top" [toolInfo]="currentTool"></app-sticky-note>
+<app-sticky-note [width]="width" [height]="height" [left]="left" [top]="top" [toolInfo]="currentTool"
+    (contextMenuClicked)="contextMenuClickedEvent($event)"
+    (deleteSelf)="deleteSelf.emit()"></app-sticky-note>

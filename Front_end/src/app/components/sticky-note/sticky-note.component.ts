@@ -1,8 +1,12 @@
-import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Status } from 'src/app/helpers/common-enums';
 import { Toolbar } from 'src/app/models/toolbar';
+import { EventEmitter } from '@angular/core';
 import { CollaborationService } from '../../services/collaboration.service';
+import { ContextMenuRequest } from 'src/app/models/context-menu-request';
+import { ContextMenuActions } from 'src/app/models/context-menu-actions';
+import { ContextMenuOptionsEnum } from 'src/app/helpers/context-menu-enums';
 
 
 @Component({
@@ -17,6 +21,9 @@ export class StickyNoteComponent implements OnInit {
     menuTopLeftPosition = { x: '0', y: '0' }
     currentTool: Toolbar | undefined;
     model: string = '';
+    currentContextMenuOptions: ContextMenuActions = {
+        availableActions: [ContextMenuOptionsEnum.DELETE]
+    };
 
     @Input() set toolInfo(value: Toolbar) {
         this.currentTool = value;
@@ -26,6 +33,9 @@ export class StickyNoteComponent implements OnInit {
     @Input() height: number = 0;
     @Input() left: number = 0;
     @Input() top: number = 0;
+
+    @Output() contextMenuClicked: EventEmitter<ContextMenuRequest> = new EventEmitter();
+    @Output() deleteSelf: EventEmitter<void> = new EventEmitter<void>();
 
     @ViewChild("box") public box: ElementRef | undefined;
 
@@ -47,9 +57,11 @@ export class StickyNoteComponent implements OnInit {
         this.loadContainer();
     }
 
-    setValue($event) {
-        this.currentTool.data = $event.textContent;
-        this.collaborationService.sendComponent(this.currentTool);
+    setValue($event: any) {
+        if (this.currentTool) {
+            this.currentTool.data = $event.textContent;
+            this.collaborationService.sendComponent(this.currentTool);
+        }
     }
 
     private loadBox() {
@@ -103,6 +115,19 @@ export class StickyNoteComponent implements OnInit {
             this.currentTool.left = this.left;
             this.currentTool.top = this.top;
             this.collaborationService.sendComponent(this.currentTool);
+        }
+    }
+
+    stickyNoteContextClick(event: any) {
+        if(this.currentTool && event){
+            this.contextMenuClicked.emit(<ContextMenuRequest>{
+                mouseX: event?.x,
+                mouseY: event?.x,
+                selectedToolContext: this.currentTool,
+                srcElement: event.srcElement,
+                contextEvent: event,
+                contextMenuActions: this.currentContextMenuOptions
+            });
         }
     }
 
