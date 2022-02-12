@@ -12,6 +12,7 @@ export class CollaborationService {
     private socket: Socket;
     private socketId: string = "";
     private _message: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    private _disconnectedSocket: BehaviorSubject<any> = new BehaviorSubject<any>({});
     private _otherComponent: BehaviorSubject<Toolbar> = new BehaviorSubject<Toolbar>({});
 
     public get message(): Observable<any> {
@@ -22,8 +23,12 @@ export class CollaborationService {
         return this._otherComponent.asObservable();
     }
 
+    public get disconnectedSocket(): Observable<any> {
+        return this._disconnectedSocket.asObservable();
+    }
+
     constructor() {
-        this.socket = io(
+        this.socket = io("http://localhost:5000"
             /*"http://localhost:5000",{
             withCredentials: true,
             extraHeaders: {
@@ -36,6 +41,7 @@ export class CollaborationService {
         });
 
         this.socket.on("disconnect", () => {
+            this._disconnectedSocket.next(this.socket.id);
             //console.log("disconnected");
         })
     }
@@ -46,6 +52,9 @@ export class CollaborationService {
         })
         this.socket.on("otherComponent", (data: any) => {
             this._otherComponent.next(data);
+        })
+        this.socket.on("userLeft", (data) => {
+            this._disconnectedSocket.next(data);
         })
     }
 

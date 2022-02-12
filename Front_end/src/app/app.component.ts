@@ -1,4 +1,5 @@
-import { Component, HostListener, ViewChild, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, HostListener, ViewChild, ViewEncapsulation, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription, tap } from 'rxjs';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { ToolComponent } from './components/shared-components/tool/tool.component';
@@ -10,13 +11,14 @@ import { Toolbar } from './models/toolbar';
 import { CollaborationService } from './services/collaboration.service';
 import { CrudService } from './services/crud.service';
 
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnDestroy, AfterViewInit {
+export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     @ViewChild(DynamicToolDirectiveDirective, { static: true }) dynamicChild!: DynamicToolDirectiveDirective;
     currentTools: any[] = [];
     currentToolsComponent: Toolbar[] = [];
@@ -28,6 +30,8 @@ export class AppComponent implements OnDestroy, AfterViewInit {
     offsetX = 0;
     offsetY = 0;
     scale = 1;
+    id: string;
+    users: { name: string, pointerAdded: boolean }[] = [];
 
     currentSelectedTool!: Toolbar;
 
@@ -59,7 +63,8 @@ export class AppComponent implements OnDestroy, AfterViewInit {
         //const trueY = (this.cursorY / this.scale) - this. offsetY;
         var message = {
             x: this.cursorX,
-            y: this.cursorY
+            y: this.cursorY,
+            user: this.id
         };
         //console.log(`from app component: x axis: ${message.x} y axis: ${message.y}`);
         this.collaborationService.sendMessage(message);
@@ -75,7 +80,9 @@ export class AppComponent implements OnDestroy, AfterViewInit {
     }
 
 
-    constructor(private collaborationService: CollaborationService, private crudService: CrudService) {
+    constructor(private collaborationService: CollaborationService,
+        private crudService: CrudService,
+        private route: ActivatedRoute) {
         this.collaborationService.startRecievingData();
     }
 
@@ -101,10 +108,20 @@ export class AppComponent implements OnDestroy, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.collaborationService.disconnectedSocket.subscribe(socketId => {
+            let dot = document.getElementById(socketId);
+            if (dot) {
+                dot.remove();
+            }
+        });
         this.collaborationService.message.subscribe(data => {
             let dot = document.getElementById(data.socketId);
-            if (!dot && data.socketId) {
-                dot = this.createDot(data.socketId);
+            let ispointerAdded = this.users.find(x => x.name == data.user)?.pointerAdded;
+            if (!dot && data.socketId && !ispointerAdded) {
+                if (data.user) {
+                    dot = this.createDot(data.socketId, data.user);
+                    this.users.push({ name: data.user, pointerAdded: true });
+                }
             }
             // dot.style.left = `${data.x-7}px`
             // dot.style.top = `${data.y-7}px`
@@ -113,7 +130,7 @@ export class AppComponent implements OnDestroy, AfterViewInit {
                 //dot.style.top = `${(data.y - 5 + this.offsetY) * this.scale}px`;
                 dot.style.left = `${data.x}px`;
                 dot.style.top = `${data.y}px`;
-                dot.style.backgroundColor = 'black';//data.colour;
+                //dot.style.backgroundColor = 'black';//data.colour;
             }
             //console.log(data);
         });
@@ -137,12 +154,21 @@ export class AppComponent implements OnDestroy, AfterViewInit {
                 this.renderDynamicComponent(component);
             });
         });
+
+         // this.route.snapshot.paramMap.get('id');
+        let name = this.route.params.subscribe((data) => {
+            if (data['id']) {
+                this.id = data['id'];
+                this.users.push({ name: this.id, pointerAdded: false });
+            }
+        });        
     }
 
-    createDot(socketId: any) {
+    createDot(socketId: any, userName: string) {
         const dot = document.createElement('div')
         dot.className = "dot";
         dot.id = socketId;
+        dot.innerHTML = userName;
         dot.style.position = 'fixed';
         document.body.appendChild(dot);
         return dot;
